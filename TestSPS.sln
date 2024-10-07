@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0731A354
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSPS.WebApi", "TestSPS.WebApi\TestSPS.WebApi.csproj", "{4AFDCCAD-A1EE-4205-B59F-FF594554ED55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSPS.WebUI", "TestSPS.WebUI\TestSPS.WebUI.csproj", "{B528541D-7AC8-4B4E-A252-83CA9BF84DD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,12 +26,17 @@ Global
 		{4AFDCCAD-A1EE-4205-B59F-FF594554ED55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AFDCCAD-A1EE-4205-B59F-FF594554ED55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AFDCCAD-A1EE-4205-B59F-FF594554ED55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B528541D-7AC8-4B4E-A252-83CA9BF84DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B528541D-7AC8-4B4E-A252-83CA9BF84DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B528541D-7AC8-4B4E-A252-83CA9BF84DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B528541D-7AC8-4B4E-A252-83CA9BF84DD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4AFDCCAD-A1EE-4205-B59F-FF594554ED55} = {54E63DFA-9E5A-4F4E-BA47-1FAEA6EB5C2F}
+		{B528541D-7AC8-4B4E-A252-83CA9BF84DD3} = {54E63DFA-9E5A-4F4E-BA47-1FAEA6EB5C2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3ED6EDB3-A4E9-4798-BA84-E2E87C67C3C4}
