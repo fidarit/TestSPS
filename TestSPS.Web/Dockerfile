@@ -11,19 +11,19 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["TestSPS.WebUI/TestSPS.WebUI.csproj", "TestSPS.WebUI/"]
-RUN dotnet restore "./TestSPS.WebUI/TestSPS.WebUI.csproj"
+COPY ["TestSPS.Web/TestSPS.Web.csproj", "TestSPS.Web/"]
+RUN dotnet restore "./TestSPS.Web/TestSPS.Web.csproj"
 COPY . .
-WORKDIR "/src/TestSPS.WebUI"
-RUN dotnet build "./TestSPS.WebUI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/TestSPS.Web"
+RUN dotnet build "./TestSPS.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./TestSPS.WebUI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./TestSPS.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Этот этап используется в рабочей среде или при запуске из VS в обычном режиме (по умолчанию, когда конфигурация отладки не используется)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TestSPS.WebUI.dll"]
+ENTRYPOINT ["dotnet", "TestSPS.Web.dll"]

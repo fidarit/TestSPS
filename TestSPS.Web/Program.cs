@@ -1,4 +1,4 @@
-namespace TestSPS.WebUI
+namespace TestSPS.Web
 {
     public class Program
     {

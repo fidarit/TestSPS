@@ -1,4 +1,4 @@
-namespace TestSPS.WebUI.Models
+namespace TestSPS.Web.Models
 {
     public class ErrorViewModel
     {

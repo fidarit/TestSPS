@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TestSPS.WebUI.Models;
+using TestSPS.Web.Models;
 
-namespace TestSPS.WebUI.Controllers
+namespace TestSPS.Web.Controllers
 {
     public class HomeController : Controller
     {

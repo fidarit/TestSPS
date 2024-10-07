@@ -20,16 +20,16 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["TestSPS.WebApi/TestSPS.WebApi.csproj", "TestSPS.WebApi/"]
-RUN dotnet restore "./TestSPS.WebApi/TestSPS.WebApi.csproj"
+COPY ["TestSPS.Api/TestSPS.Api.csproj", "TestSPS.Api/"]
+RUN dotnet restore "./TestSPS.Api/TestSPS.Api.csproj"
 COPY . .
-WORKDIR "/src/TestSPS.WebApi"
-RUN dotnet build "./TestSPS.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/TestSPS.Api"
+RUN dotnet build "./TestSPS.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./TestSPS.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
+RUN dotnet publish "./TestSPS.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
 
 # Этот этап используется в качестве базового для последнего этапа при запуске из VS для поддержки отладки в обычном режиме (по умолчанию, если конфигурация отладки не используется)
 FROM base as aotdebug
@@ -45,4 +45,4 @@ FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:8.0} AS final
 WORKDIR /app
 EXPOSE 8080
 COPY --from=publish /app/publish .
-ENTRYPOINT ["./TestSPS.WebApi"]
+ENTRYPOINT ["./TestSPS.Api"]
