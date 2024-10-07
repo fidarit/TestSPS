@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace TestSPS
+namespace TestSPS.WebApi
 {
     public class Program
     {
