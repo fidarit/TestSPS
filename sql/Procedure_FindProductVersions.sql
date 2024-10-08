@@ -2,8 +2,8 @@
   (
 	@productName nvarchar(255),
 	@productVersionName nvarchar(255),
-    @minVolume real,
-    @maxVolume real
+    @minVolume float,
+    @maxVolume float
   )
 AS
 

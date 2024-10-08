@@ -1,7 +1,7 @@
 ﻿CREATE TABLE dbo.EventLog  
 (
 	ID			uniqueidentifier DEFAULT NEWID(),
-	EventDate	datetime NOT NULL DEFAULT GETDATE(),
+	EventDate	datetimeoffset NOT NULL DEFAULT GETDATE(),
 	Description nvarchar(MAX),
 	
 	CONSTRAINT PK_EventLog_ID PRIMARY KEY(ID)

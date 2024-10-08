@@ -4,10 +4,10 @@
 	ProductID		uniqueidentifier NOT NULL,
 	Name			nvarchar(255) NOT NULL,
 	Description		nvarchar(max),
-	CreatingDate	datetime NOT NULL DEFAULT GETDATE(),
-	Width			real NOT NULL,
-	Height			real NOT NULL,
-	Length			real NOT NULL,
+	CreatingDate	datetimeoffset NOT NULL DEFAULT GETDATE(),
+	Width			float NOT NULL,
+	Height			float NOT NULL,
+	Length			float NOT NULL,
 
 	CONSTRAINT PK_ProductVersion_ID PRIMARY KEY(ID), 
 	CONSTRAINT FK_ProductVersion_ProductID FOREIGN KEY(ProductID)

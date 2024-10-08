@@ -2,8 +2,8 @@
   (
 	@productName nvarchar(255) = null,
 	@productVersionName nvarchar(255) = null,
-    @minVolume real = null,
-    @maxVolume real = null
+    @minVolume float = null,
+    @maxVolume float = null
   )
 AS
 
@@ -41,7 +41,7 @@ if @maxVolume is not null
 	set @nsql += ' and ver.Width * ver.Length * ver.Height <= @maxVolume';
 
 execute sp_executesql @nsql, 
-	N'@productVersionName nvarchar(255), @productName nvarchar(255), @minVolume real, @maxVolume real', 
+	N'@productVersionName nvarchar(255), @productName nvarchar(255), @minVolume float, @maxVolume float', 
 	@productVersionName=@productVersionName, 
 	@productName=@productName, 
 	@minVolume=@minVolume, 

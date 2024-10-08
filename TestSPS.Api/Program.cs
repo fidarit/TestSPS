@@ -8,6 +8,8 @@ namespace TestSPS.Api
         {
             var builder = WebApplication.CreateSlimBuilder(args);
 
+            ConfigureDbContext(builder);
+
             builder.Services.ConfigureHttpJsonOptions(options =>
             {
                 options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
@@ -32,6 +34,17 @@ namespace TestSPS.Api
 
             app.Run();
         }
+
+        private static void ConfigureDbContext(WebApplicationBuilder builder)
+        {
+            const string paramName = "DbConnection";
+            var connectionString = builder.Configuration.GetConnectionString(paramName);
+
+            if (connectionString == null)
+                throw new ArgumentOutOfRangeException(paramName);
+
+            builder.Services.AddApplicationDbContext(connectionString);
+    }
     }
 
     public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
@@ -41,4 +54,5 @@ namespace TestSPS.Api
     {
 
     }
+}
 }
