@@ -18,8 +18,33 @@ namespace TestSPS.Api
 
             app.UseHttpsRedirection();
 
+            app.MapGet("/api/products", async ([FromQuery] string name, IRepository<Product> repository, CancellationToken token) 
+                => await repository.AsQueryable
+                    .Where(t => t.Name.Contains(name))
+                    .ToListAsync(token));
+            
+            app.MapPost("/api/products/{id}", async (Guid id, [FromBody] ProductRequest request, IRepository<Product> repository, CancellationToken token)
+                => await repository.CreateAsync(new()
+                {
+                    ID = id,
+                    Name = request.Name,
+                    Description = request.Description,
+                }, token));
+
+            app.MapPut("/api/products/{id}", async (Guid id, [FromBody] ProductRequest request, IRepository<Product> repository, CancellationToken token)
+                => await repository.UpdateAsync(new()
+                {
+                    ID = id,
+                    Name = request.Name,
+                    Description = request.Description,
+                }, token));
+
+            app.MapDelete("/api/products/{id}", async (Guid id, IRepository<Product> repository, CancellationToken token)
+                => await repository.DeleteAsync(id, token));
+
             app.Run();
         }
+
 
         private static void ConfigureDbContext(WebApplicationBuilder builder)
         {
@@ -30,7 +55,12 @@ namespace TestSPS.Api
                 throw new ArgumentOutOfRangeException(paramName);
 
             builder.Services.AddApplicationDbContext(connectionString);
-    }
+        }
     }
 
+    internal class ProductRequest
+    {
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+    }
 }
