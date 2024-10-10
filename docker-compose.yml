@@ -1,0 +1,89 @@
+networks:
+  app-network:
+    driver: bridge
+    
+volumes:
+  bankan-postgres-data:
+  bankan-pgadmin-data:
+
+services:
+  bankan-webapi:
+    image: ${DOCKER_REGISTRY-}bankan-webapi
+    container_name: bankan-webapi
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Bankan.Server.WebApi/Dockerfile
+    expose:
+      - 80
+    links:
+      - bankan-postgres
+      - bankan-pgadmin 
+    networks:
+      - app-network
+    depends_on:
+      - bankan-postgres
+      - bankan-pgadmin 
+      
+  bankan-postgres:
+    image: postgres:16.2
+    container_name: bankan-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=4GB"
+      - "-c"
+      - "work_mem=64MB"
+      - "-c"
+      - "temp_file_limit=10GB"
+      - "-c"
+      - "log_min_duration_statement=200ms"
+      - "-c"
+      - "idle_in_transaction_session_timeout=10s"
+      - "-c"
+      - "lock_timeout=1s"
+      - "-c"
+      - "statement_timeout=60s"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+      - "-c"
+      - "pg_stat_statements.max=10000"
+      - "-c"
+      - "pg_stat_statements.track=all"
+    environment:
+      POSTGRES_DB: "serverdb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - bankan-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d serverdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app-network
+      
+  bankan-pgadmin:
+    container_name: bankan-pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@mail.com"
+      PGADMIN_DEFAULT_PASSWORD: "1234"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - bankan-pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "90:80"
+    restart: unless-stopped
+    networks:
+      - app-network

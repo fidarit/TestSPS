@@ -3,7 +3,7 @@
     "http": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "todos",
+      "launchUrl": "api/products?name=а",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{70483931-A15B-4B2D-B318-2E61E1AD7D5E}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -31,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{11F7C767-F3D
 		sql\Trigger_Product_Update.sql = sql\Trigger_Product_Update.sql
 	EndProjectSection
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{20705BB3-52A5-498A-BEFC-008F6DEBD0AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{C8EC9D72-E52E-4665-8C48-1187CAB44B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8EC9D72-E52E-4665-8C48-1187CAB44B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8EC9D72-E52E-4665-8C48-1187CAB44B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20705BB3-52A5-498A-BEFC-008F6DEBD0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20705BB3-52A5-498A-BEFC-008F6DEBD0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20705BB3-52A5-498A-BEFC-008F6DEBD0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20705BB3-52A5-498A-BEFC-008F6DEBD0AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
