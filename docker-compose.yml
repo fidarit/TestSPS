@@ -2,88 +2,43 @@ networks:
   app-network:
     driver: bridge
     
-volumes:
-  bankan-postgres-data:
-  bankan-pgadmin-data:
-
 services:
-  bankan-webapi:
-    image: ${DOCKER_REGISTRY-}bankan-webapi
-    container_name: bankan-webapi
+  test-web:
+    container_name: test-web
     restart: always
     build:
       context: .
-      dockerfile: src/Bankan.Server.WebApi/Dockerfile
-    expose:
-      - 80
-    links:
-      - bankan-postgres
-      - bankan-pgadmin 
+      dockerfile: TestSPS.Web/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - "5000:5000"
     networks:
       - app-network
     depends_on:
-      - bankan-postgres
-      - bankan-pgadmin 
-      
-  bankan-postgres:
-    image: postgres:16.2
-    container_name: bankan-postgres
+      - test-api
+
+  test-api:
+    container_name: test-api
     restart: always
+    build:
+      context: .
+      dockerfile: TestSPS.Api/Dockerfile
     ports:
-      - "5432:5432"
-    command:
-      - "postgres"
-      - "-c"
-      - "max_connections=200"
-      - "-c"
-      - "shared_buffers=1GB"
-      - "-c"
-      - "effective_cache_size=4GB"
-      - "-c"
-      - "work_mem=64MB"
-      - "-c"
-      - "temp_file_limit=10GB"
-      - "-c"
-      - "log_min_duration_statement=200ms"
-      - "-c"
-      - "idle_in_transaction_session_timeout=10s"
-      - "-c"
-      - "lock_timeout=1s"
-      - "-c"
-      - "statement_timeout=60s"
-      - "-c"
-      - "shared_preload_libraries=pg_stat_statements"
-      - "-c"
-      - "pg_stat_statements.max=10000"
-      - "-c"
-      - "pg_stat_statements.track=all"
-    environment:
-      POSTGRES_DB: "serverdb"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "1234"
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-    volumes:
-      - bankan-postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d serverdb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+      - "8080:8080"
     networks:
       - app-network
+    depends_on:
+      - test-sqlserver
       
-  bankan-pgadmin:
-    container_name: bankan-pgadmin
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@mail.com"
-      PGADMIN_DEFAULT_PASSWORD: "1234"
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - bankan-pgadmin-data:/var/lib/pgadmin
+  test-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: test-sqlserver
+    restart: always
     ports:
-      - "90:80"
-    restart: unless-stopped
+        - 8002:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=myStong_Password123#
     networks:
       - app-network
