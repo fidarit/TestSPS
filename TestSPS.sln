@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSPS.Web", "TestSPS.Web\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{11F7C767-F3D5-4BE0-9024-F838571CAA1B}"
 	ProjectSection(SolutionItems) = preProject
+		sql\Dockerfile = sql\Dockerfile
+		sql\init.sh = sql\init.sh
 		sql\Procedure_FindProductVersions.sql = sql\Procedure_FindProductVersions.sql
 		sql\Procedure_FindProductVersionsOptional.sql = sql\Procedure_FindProductVersionsOptional.sql
 		sql\Table_EventLog.sql = sql\Table_EventLog.sql

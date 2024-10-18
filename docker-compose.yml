@@ -2,6 +2,9 @@ networks:
   app-network:
     driver: bridge
     
+volumes:
+  test-mssql-data:
+
 services:
   test-web:
     container_name: test-web
@@ -32,13 +35,13 @@ services:
       - test-sqlserver
       
   test-sqlserver:
-    image: mcr.microsoft.com/mssql/server:2017-latest
     container_name: test-sqlserver
-    restart: always
+    build:
+      context: .
+      dockerfile: sql/Dockerfile
     ports:
         - 8002:1433
-    environment:
-        - ACCEPT_EULA=Y
-        - MSSQL_SA_PASSWORD=myStong_Password123#
+    volumes:
+      - test-mssql-data:/var/opt/mssql
     networks:
       - app-network

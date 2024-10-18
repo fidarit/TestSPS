@@ -6,7 +6,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/fidarit/TestSPS</RepositoryUrl>
     
-    <LangVersion>latest</LangVersion>
+    <LangVersion>11</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 

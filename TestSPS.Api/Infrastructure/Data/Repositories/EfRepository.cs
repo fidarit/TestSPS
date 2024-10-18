@@ -4,12 +4,18 @@ using TestSPS.Api.Domain.Interfaces;
 
 namespace TestSPS.Api.Infrastructure.Data.Repositories
 {
-    internal class EfRepository<T>(AppDbContext dbContext) : IRepository<T> where T : EntityBase
+    internal class EfRepository<T> : IRepository<T> where T : EntityBase
     {
-        private readonly AppDbContext dbContext = dbContext;
-        private readonly DbSet<T> dbSet = dbContext.Set<T>();
+        private readonly AppDbContext dbContext;
+        private readonly DbSet<T> dbSet;
 
         public IQueryable<T> AsQueryable => dbSet;
+
+        public EfRepository(AppDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+            dbSet = dbContext.Set<T>();
+        }
 
         public async Task CreateAsync(T entity, CancellationToken cancellationToken)
         {
