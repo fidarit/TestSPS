@@ -5,9 +5,9 @@ namespace TestSPS.Api.Infrastructure.Data
 {
     internal class AppDbContext : DbContext
     {
-        internal DbSet<Product> Products => Set<Product>();
-        internal DbSet<ProductVersion> ProductVersions => Set<ProductVersion>();
-        internal DbSet<EventLog> EventLogs => Set<EventLog>();
+        internal DbSet<Product> Product => Set<Product>();
+        internal DbSet<ProductVersion> ProductVersion => Set<ProductVersion>();
+        internal DbSet<EventLog> EventLog => Set<EventLog>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

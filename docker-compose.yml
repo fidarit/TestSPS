@@ -14,6 +14,7 @@ services:
       dockerfile: TestSPS.Web/Dockerfile
     environment:
       - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5000:5000"
     networks:
@@ -27,6 +28,9 @@ services:
     build:
       context: .
       dockerfile: TestSPS.Api/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8080:8080"
     networks:
@@ -36,6 +40,7 @@ services:
       
   test-sqlserver:
     container_name: test-sqlserver
+    restart: always
     build:
       context: .
       dockerfile: sql/Dockerfile

@@ -18,10 +18,14 @@ namespace TestSPS.Api
 
             app.UseHttpsRedirection();
 
-            app.MapGet("/api/products", async ([FromQuery] string name, IRepository<Product> repository, CancellationToken token) 
-                => await repository.AsQueryable
-                    .Where(t => t.Name.Contains(name))
-                    .ToListAsync(token));
+            app.MapGet("/api/products", async ([FromQuery] string? filter, IRepository<Product> repository, CancellationToken token)
+                =>
+            {
+                if (string.IsNullOrEmpty(filter))
+                    return await repository.AsQueryable.ToListAsync(token);
+                else
+                    return await repository.AsQueryable.Where(t => t.Name.Contains(filter)).ToListAsync(token);
+            });
             
             app.MapPost("/api/products/{id}", async (Guid id, [FromBody] ProductRequest request, IRepository<Product> repository, CancellationToken token)
                 => await repository.CreateAsync(new()

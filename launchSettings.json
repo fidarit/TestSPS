@@ -6,7 +6,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "test-web": "StartDebugging"
+        "test-web": "StartDebugging",
+        "test-api": "StartDebugging"
       }
     }
   }
