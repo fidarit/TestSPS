@@ -1,0 +1,159 @@
+﻿@model List<Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<input type="text" id="filter" placeholder="Поиск по наименованию" />
+<button type="button" class="btn btn-outline-secondary" onclick="applyFilter()">Поиск</button>
+
+<table id="productTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Описание</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr data-id="@product.ID">
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal">Редактировать</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal">Создать</button>
+
+<!-- Modal -->
+<div id="modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование изделия</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="modal-name" class="col-form-label">Наименование:</label>
+                        <input type="text" class="form-control" id="modal-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-description" class="col-form-label">Описание:</label>
+                        <textarea class="form-control" id="modal-description"></textarea>
+                    </div>
+                    <input type="hidden" id="modal-productId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="saveProduct()" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var modal = document.getElementById('modal')
+    modal.addEventListener('show.bs.modal', function (event) {
+        var modal = $(this);
+        var button = $(event.relatedTarget);
+        var row = button.closest('tr');
+
+        var modalTitle = modal.find('.modal-title');
+        var productIdInput = modal.find('#modal-productId');
+        var nameInput = modal.find('#modal-name');
+        var descriptionInput = modal.find('#modal-description');
+
+        if (row.length === 0) {
+            modalTitle.text('Создание изделия');
+
+            productIdInput.val('');
+            nameInput.val('Новое изделие');
+            descriptionInput.val('');
+        }
+        else {
+            modalTitle.text('Редактирование изделия');
+
+            const productId = row.data("id");
+            const name = row.find('td:eq(0)').text();
+            const description = row.find('td:eq(1)').text();
+
+            productIdInput.val(productId);
+            nameInput.val(name);
+            descriptionInput.val(description);
+        }
+    })
+
+    function applyFilter() {
+        const filter = $('#filter').val();
+        window.location.href = `?filter=${filter}`;
+    }
+
+    function saveProduct() {
+        const productId = $('#modal-productId').val();
+        const name = $('#modal-name').val();
+        const description = $('#modal-description').val();
+
+        method = productId
+            ? 'Edit'
+            : 'Create';
+
+        const product = {
+            id: productId,
+            name: name,
+            description: description
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: `/Products/${method}`,
+            data: product,
+            success: function() {
+                window.location.reload();
+            },
+            error: function (xhr) {
+                showAlert(xhr.responseText || xhr.responseJSON?.Message)
+            }
+        });
+    }
+</script>
+
+<!-- Alert -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+    </symbol>
+</svg>
+<div id="alerts" style="position: fixed; top: 15pt; right: 15pt; min-width: 250pt; max-width: 20%">
+</div>
+
+<script>
+    function showAlert(msg) {
+        const message = document.createElement('div');
+        $('#alerts').append(message);
+
+        if (!msg)
+            msg = 'Неизестная ошибка.';
+
+        message.outerHTML =
+            `
+                <div class="alert alert-danger d-flex alert-dismissible align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Ошибка:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                    <div>
+                        ${msg}
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            `;
+    }
+</script>

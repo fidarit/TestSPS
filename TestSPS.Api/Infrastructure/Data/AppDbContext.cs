@@ -12,5 +12,26 @@ namespace TestSPS.Api.Infrastructure.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Product>()
+                .ToTable(tb =>
+                {
+                    tb.HasTrigger("Trigger_Product_Delete");
+                    tb.HasTrigger("Trigger_Product_Insert");
+                    tb.HasTrigger("Trigger_Product_Update");
+                });
+
+            modelBuilder
+                .Entity<ProductVersion>()
+                .ToTable(tb =>
+                {
+                    tb.HasTrigger("Trigger_ProductVersion_Delete");
+                    tb.HasTrigger("Trigger_ProductVersion_Insert");
+                    tb.HasTrigger("Trigger_ProductVersion_Update");
+                });
+        }
     }
 }

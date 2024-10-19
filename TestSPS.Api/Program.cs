@@ -27,10 +27,9 @@ namespace TestSPS.Api
                     return await repository.AsQueryable.Where(t => t.Name.Contains(filter)).ToListAsync(token);
             });
             
-            app.MapPost("/api/products/{id}", async (Guid id, [FromBody] ProductRequest request, IRepository<Product> repository, CancellationToken token)
+            app.MapPost("/api/products", async ([FromBody] ProductRequest request, IRepository<Product> repository, CancellationToken token)
                 => await repository.CreateAsync(new()
                 {
-                    ID = id,
                     Name = request.Name,
                     Description = request.Description,
                 }, token));
