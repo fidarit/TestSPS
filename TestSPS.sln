@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{11F7C767-F3D
 		sql\init.sh = sql\init.sh
 		sql\Procedure_FindProductVersions.sql = sql\Procedure_FindProductVersions.sql
 		sql\Procedure_FindProductVersionsOptional.sql = sql\Procedure_FindProductVersionsOptional.sql
+		sql\Seed.sql = sql\Seed.sql
 		sql\Table_EventLog.sql = sql\Table_EventLog.sql
 		sql\Table_Product.sql = sql\Table_Product.sql
 		sql\Table_ProductVersion.sql = sql\Table_ProductVersion.sql

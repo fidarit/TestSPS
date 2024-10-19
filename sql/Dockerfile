@@ -3,7 +3,12 @@ FROM mcr.microsoft.com/mssql/server:2019-latest
 ENV MSSQL_SA_PASSWORD=myStong_Password123#
 ENV ACCEPT_EULA=Y
 
-COPY sql/*.sql ./
-COPY sql/*.sh ./
+USER root
 
-RUN /opt/mssql/bin/sqlservr & ./init.sh
+RUN mkdir -p /scripts
+COPY sql/*.sql /scripts
+COPY sql/*.sh /scripts
+
+USER mssql
+
+RUN /opt/mssql/bin/sqlservr & /scripts/init.sh

@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>20705BB3-52A5-498A-BEFC-008F6DEBD0AA</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:5000/</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/Products</DockerServiceUrl>
     <DockerServiceName>test-web</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
